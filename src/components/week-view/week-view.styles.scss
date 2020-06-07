@@ -1,0 +1,51 @@
+.week-view {
+  display: inline-block;
+
+  width: 100%;
+  padding: 3rem 2.5rem;
+  color: #fff;
+  background-color: #313a4d;
+  margin: auto 0;
+  font-size: 1.6rem;
+
+  &__list {
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+  }
+
+  &__item {
+  }
+
+  &__text {
+    font-weight: 500;
+    padding-left: 0.8rem;
+  }
+
+  &__number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    width: 4rem;
+    font-weight: 700;
+    box-shadow: 0 0.5rem 1rem rgba($color: #000000, $alpha: 0.1);
+
+    background-image: linear-gradient(
+      to right bottom,
+      rgba(#394969, 1),
+      rgba(#3c4861, 1)
+    );
+
+    border-radius: 50%;
+    margin-top: 1rem;
+  }
+
+  &__item--active &__number {
+    background-image: linear-gradient(
+      to right bottom,
+      rgba(#5a75ac, 1),
+      rgba(#334b7e, 1)
+    );
+  }
+}

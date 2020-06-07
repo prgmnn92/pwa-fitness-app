@@ -1,14 +1,17 @@
 .homepage {
-    min-height: 100vh;
-    background-color: yellowgreen;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, min-content);
+  grid-gap: 4rem;
+
+  animation: 0.2s smoothPageReveal forwards;
 }
 
-.week-view {
-    &__list {}
-
-    &__item {}
-
-    &__text {}
-
-    &__number {}
+@keyframes smoothPageReveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
