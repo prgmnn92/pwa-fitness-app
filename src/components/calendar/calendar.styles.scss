@@ -1,0 +1,130 @@
+$dark-background: #444;
+$dark-backgorund-hover: #333;
+$dark-font-color: #ccc;
+
+
+$dark-background: #313a4d;
+$dark-backgorund-hover: #333;
+$dark-header-background: #394359;
+$dark-font-color: #ccc;
+$arrow-color: #fff;
+$button-padding: 15px;
+$button-border-size: 8px;
+
+
+
+
+.calendar {
+    color: #fff;
+
+  padding: 1rem 1.5rem;
+
+ 
+  position: relative;
+
+  &__header {
+    background-color: $dark-header-background;
+    font-size: 16px;
+    height: 40px;
+    line-height: 2.4;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__button-container {
+    height: 100%;
+    position: relative;
+  
+
+  }
+  
+
+
+  &__button-content {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    float: left;
+    height: 100%;
+    padding-left: $button-padding;
+    position: relative;
+    transition: background .3s ease;
+  
+
+  
+    &:focus {
+      outline: 0;
+    }
+  
+    &--left {
+      &::before {
+        border-bottom: $button-border-size solid transparent;
+        border-right: $button-border-size solid #fff;
+        border-top: $button-border-size solid transparent;
+        content: '';
+        display: inline-block;
+        height: 0;
+        margin-right: 10px;
+        vertical-align: middle;
+        width: 0;
+  
+      }
+    }
+  
+    &--right {
+      &::before {
+        border-bottom: $button-border-size solid transparent;
+        border-left: $button-border-size solid #fff;
+        border-top: $button-border-size solid transparent;
+        content: '';
+        display: inline-block;
+        height: 0;
+        margin-right: 10px;
+        vertical-align: middle;
+        width: 0;
+      }
+    }
+  }
+
+
+
+  &__week {
+      display: flex;
+    width: 100%;
+  }
+  
+  &__weekday {
+    background-color: $dark-background;
+    float: left;
+    height: 40px;
+    line-height: 2.5;
+    text-align: center;
+    width: 14.28%;
+  }
+  
+  &__day {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    background-color: $dark-background;
+    font-weight: 300;
+    height: 40px;
+    padding: 10px 0;
+    position: relative;
+
+    transition: background .2s ease;
+    width: 14.28%;
+    z-index: 999;
+  
+    &--soft {
+      color: rgba($color: #ccc, $alpha: .1);
+    }
+  }
+}
+
+
+
+
+
+
