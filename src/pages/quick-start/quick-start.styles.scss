@@ -1,0 +1,23 @@
+.quick-start {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  min-height: 88%;
+  padding: 1rem;
+
+  &__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.6rem;
+  }
+
+  &__container {
+    padding-top: 2rem;
+    font-size: 2rem;
+  }
+}

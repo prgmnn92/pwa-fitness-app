@@ -9,8 +9,6 @@
   padding: 1.5rem 0 1rem 0;
   font-family: "Oswald", sans-serif;
   letter-spacing: 0.1rem;
-  overflow: hidden;
-
   &__list {
     list-style: none;
     display: flex;
@@ -25,17 +23,15 @@
   &__item {
     display: inline-block;
     margin-top: 1rem;
-    transition: all .2s;
+    transition: all 0.2s;
   }
-
-
 
   &__item--active {
     padding: 0 2.5rem;
     position: relative;
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
 
       left: 50%;
@@ -44,7 +40,7 @@
       border-radius: 50%;
       width: 0;
       height: 0;
-      animation: .4s whiteCircle ease-in;
+      animation: 0.4s whiteCircle ease-in;
     }
   }
 
@@ -66,13 +62,11 @@
     font-family: "Heebo", sans-serif;
     transition: all 0.2s;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-
   }
 
   &__link:active {
     text-decoration: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-
   }
 
   &__icon {
@@ -80,20 +74,18 @@
     height: 2.5rem;
     width: 2.5rem;
     margin-bottom: 0.7rem;
-    transition: all .2s;
-    transform: translateY(.8rem);
-
+    transition: all 0.2s;
+    transform: translateY(0.8rem);
   }
 
   &__item--active &__icon {
     height: 3rem;
     width: 3rem;
     transform: translateY(0);
-
   }
 
   &__text {
-    transition: all .4s;
+    transition: all 0.4s;
     opacity: 0;
     visibility: hidden;
     transform: translateY(1.5rem);
@@ -104,7 +96,7 @@
   from {
     width: 0;
     height: 0;
-    background-color: rgba(#fff, .05);
+    background-color: rgba(#fff, 0.05);
   }
 
   to {

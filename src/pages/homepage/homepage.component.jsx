@@ -13,8 +13,14 @@ export class Homepage extends Component {
     return (
       <div className="homepage">
         <WeekView />
-        <BigButton Icon={Plus}>Plan erstellen</BigButton>
-        <BigButton Icon={Play}>Schnellstart</BigButton>
+
+        <BigButton url="/plan-creator" Icon={Plus}>
+          Plan erstellen
+        </BigButton>
+
+        <BigButton url="/quick-start" Icon={Play}>
+          Schnellstart
+        </BigButton>
       </div>
     );
   }
