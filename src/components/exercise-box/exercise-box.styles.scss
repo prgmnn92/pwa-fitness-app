@@ -1,0 +1,61 @@
+.exercise-box {
+
+    position: relative;
+    padding: 1rem 0;
+    padding-left: 6.5rem;
+    display: flex;
+    flex-direction: column;
+
+    &__number {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        left: .8rem;
+        top: 45%;
+        transform: translateY(-50%);
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.637);
+        width: 4.5rem;
+        height: 4.5rem;
+    }
+
+    &__title {
+        font-size: 1.5rem;
+        line-height: 1.5;
+
+    }
+
+    &__sets {
+        font-size: 1.2rem;
+        width: 100%;
+        padding-bottom: 1.6rem;
+        border-bottom: 1px solid rgba($color: #fff, $alpha: .20);
+    }
+
+    &__menu {
+        position: absolute;
+        right: 0;
+        top: 45%;
+        line-height: 0;
+        font-size: 4rem;
+        color: rgba(255, 255, 255, 0.637);
+
+        &::before {
+            content: '\00B7';
+            position: absolute;
+            transform: translateY(-1rem);
+            right: 0;
+        }
+        &::after {
+            content: '\00B7';
+            position: absolute;
+            transform: translateY(1rem);
+            right: 0;
+
+
+        }
+
+
+    }
+}
