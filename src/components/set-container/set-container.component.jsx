@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 
 import "./set-container.styles.scss";
+import { completeSet } from "../../redux/workout/workout.actions";
 
-const SetContainer = ({ data: { Wiederholungen, Gewicht, Complete }, id }) => {
-  const [weight, setWeight] = useState(Gewicht);
-  const [reps, setReps] = useState(Wiederholungen);
+const SetContainer = ({ workoutData, id, completeSet, name }) => {
+  const [weight, setWeight] = useState(workoutData[name][id].Gewicht);
+  const [reps, setReps] = useState(workoutData[name][id].Wiederholungen);
 
   return (
     <div className="set-container">
@@ -16,7 +18,10 @@ const SetContainer = ({ data: { Wiederholungen, Gewicht, Complete }, id }) => {
       <div className="set-container__box">
         <div
           className="set-container__icon set-container__icon--minus"
-          onClick={() => setWeight(weight - 2.5)}
+          onClick={() => {
+            if (weight <= 0) return;
+            return !workoutData[name][id].Complete && setWeight(weight - 2.5);
+          }}
         ></div>
         <div className="set-container__box-content">
           <p>Gewicht (kg)</p>
@@ -24,13 +29,18 @@ const SetContainer = ({ data: { Wiederholungen, Gewicht, Complete }, id }) => {
         </div>
         <div
           className="set-container__icon set-container__icon--plus"
-          onClick={() => setWeight(weight + 2.5)}
+          onClick={() =>
+            !workoutData[name][id].Complete && setWeight(weight + 2.5)
+          }
         ></div>
       </div>
       <div className="set-container__box">
         <div
           className="set-container__icon set-container__icon--minus"
-          onClick={() => setReps(reps - 1)}
+          onClick={() => {
+            if (reps <= 0) return;
+            return !workoutData[name][id].Complete && setReps(reps - 1);
+          }}
         ></div>
         <div className="set-container__box-content">
           <p>Wiederholungen</p>
@@ -38,13 +48,26 @@ const SetContainer = ({ data: { Wiederholungen, Gewicht, Complete }, id }) => {
         </div>
         <div
           className="set-container__icon set-container__icon--plus"
-          onClick={() => setReps(reps + 1)}
+          onClick={() => !workoutData[name][id].Complete && setReps(reps + 1)}
         ></div>
       </div>
-      <button disabled={Complete} className="btn btn--complete">
+      <button
+        disabled={workoutData[name][id].Complete}
+        className="btn btn--complete"
+        onClick={() => completeSet(name, id, weight, reps)}
+      >
         Satz abschliessen
       </button>
     </div>
   );
 };
-export default SetContainer;
+
+const mapStateToProps = (state) => ({
+  workoutData: state.workout.workoutData,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  completeSet: (name, number, weight, reps) =>
+    dispatch(completeSet(name, number, weight, reps)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(SetContainer);

@@ -5,7 +5,6 @@ export const convertObjectForExerciseBox = (object) => {
     let name = key;
     let completedSets = 0;
 
-    console.log(object[key]);
     let openSets = object[key].length;
 
     for (let i = 0; i < openSets; i++) {

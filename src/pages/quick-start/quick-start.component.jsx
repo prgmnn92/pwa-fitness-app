@@ -1,7 +1,15 @@
 import React from "react";
+import { connect } from "react-redux";
 import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 
-import { Context } from "../../provider";
+import { resetWorkout, addExercise } from "../../redux/workout/workout.actions";
+import {
+  hideNavbar,
+  showNavbar,
+  startTime,
+  resetTime,
+} from "../../redux/ui/ui.actions";
 import { convertObjectForExerciseBox } from "../../utility";
 
 import ExerciseBox from "../../components/exercise-box/exercise-box.component";
@@ -19,34 +27,30 @@ class QuickStart extends React.Component {
   };
 
   componentDidMount() {
-    this.startTimer();
+    const { hideNavbar, startTime } = this.props;
+
+    hideNavbar();
+    startTime();
   }
 
   addNameHandler = () => {
     this.setState({ addingExercise: false });
   };
 
-  getTimeString = () =>
-    ("00" + Math.floor(this.state.time / 60000)).slice(-2) +
+  getTimeString = (time) =>
+    ("00" + Math.floor(time / 60000)).slice(-2) +
     ":" +
-    ("00" + Math.floor((this.state.time / 1000) % 60)).slice(-2);
-
-  startTimer = () => {
-    this.setState({
-      isOn: true,
-      time: this.state.time,
-      start: Date.now() - this.state.time,
-    });
-    this.timer = setInterval(
-      () =>
-        this.setState({
-          time: Date.now() - this.state.start,
-        }),
-      1
-    );
-  };
+    ("00" + Math.floor((time / 1000) % 60)).slice(-2);
 
   render() {
+    const {
+      workoutData,
+      addExercise,
+      showNavbar,
+      time,
+      resetTime,
+      resetWorkout,
+    } = this.props;
     return (
       <React.Fragment>
         <div className="quick-start">
@@ -59,24 +63,23 @@ class QuickStart extends React.Component {
                 );
                 if (confirm) {
                   this.props.history.goBack();
+                  showNavbar();
+                  resetTime();
+                  resetWorkout();
                 }
               }}
             >
               &larr;
             </div>
-            <div className="quick-start__time">{this.getTimeString()}</div>
-            <div className="quick-start__complete">Complete</div>
+            <div className="quick-start__time">{this.getTimeString(time)}</div>
+            <div className="quick-start__complete">
+              <Link to="/complete">Complete</Link>
+            </div>
           </div>
           <div className="quick-start__container">
-            <Context.Consumer>
-              {(context) =>
-                convertObjectForExerciseBox(
-                  context.state.quickStart
-                ).map((exercise, id) => (
-                  <ExerciseBox data={exercise} id={id} key={id} />
-                ))
-              }
-            </Context.Consumer>
+            {convertObjectForExerciseBox(workoutData).map((exercise, id) => (
+              <ExerciseBox data={exercise} id={id} key={id} />
+            ))}
           </div>
           <button
             className="btn btn--add"
@@ -95,25 +98,40 @@ class QuickStart extends React.Component {
             placeholder="Titel der Uebung"
             onChange={(e) => this.setState({ exerciseName: e.target.value })}
           />
-          <Context.Consumer>
-            {(context) => (
-              <button
-                onClick={() => {
-                  context.addExercise(this.state.exerciseName);
-                  this.setState({
-                    addingExercise: false,
-                  });
-                }}
-                className="btn btn--confirm"
-              >
-                Confirm
-              </button>
-            )}
-          </Context.Consumer>
+
+          <button
+            onClick={() => {
+              if (this.state.exerciseName === "") return;
+              addExercise(this.state.exerciseName);
+              this.setState({
+                addingExercise: false,
+              });
+            }}
+            className="btn btn--confirm"
+          >
+            Confirm
+          </button>
         </Modal>
       </React.Fragment>
     );
   }
 }
 
-export default withRouter(QuickStart);
+const mapStateToProps = (state) => ({
+  workoutData: state.workout.workoutData,
+  time: state.ui.time,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addExercise: (name) => dispatch(addExercise(name)),
+  resetWorkout: () => dispatch(resetWorkout()),
+  hideNavbar: () => dispatch(hideNavbar()),
+  showNavbar: () => dispatch(showNavbar()),
+  resetTime: () => dispatch(resetTime()),
+  startTime: () => startTime(dispatch),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(QuickStart));

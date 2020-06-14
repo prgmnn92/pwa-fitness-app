@@ -195,7 +195,6 @@ class Calendar extends React.Component {
   }
 
   render() {
-    console.log(this.state.calendar);
     return (
       <div className="calendar">
         <div className="calendar__header">

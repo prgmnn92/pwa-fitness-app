@@ -7,6 +7,7 @@ import Statistics from "./pages/statistics/statistics.component";
 import PlanCreator from "./pages/plan-creator/plan-creator.component";
 import QuickStart from "./pages/quick-start/quick-start.component";
 import Exercise from "./pages/exercise/exercise.component";
+import Complete from "./pages/complete/complete.component";
 
 import Layout from "./hoc/layout/layout.component";
 
@@ -34,6 +35,9 @@ function App() {
           </Route>
           <Route path="/exercise/:exerciseName">
             <Exercise />
+          </Route>
+          <Route path="/complete">
+            <Complete />
           </Route>
         </Switch>
       </Layout>

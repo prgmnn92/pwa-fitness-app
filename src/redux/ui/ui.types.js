@@ -1,0 +1,10 @@
+const UiActionTypes = {
+  START_TIMER: "START_TIMER",
+  RESET_TIMER: "RESET_TIMER",
+  STOP_TIMER: "STOP_TIMER",
+  TICK_TIMER: "TICK_TIMER",
+  SHOW_NAVBAR: "SHOW_NAVBAR",
+  HIDE_NAVBAR: "HIDE_NAVBAR",
+};
+
+export default UiActionTypes;

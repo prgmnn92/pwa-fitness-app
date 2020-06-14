@@ -1,0 +1,23 @@
+.complete {
+    color: #fff;
+    padding: 1rem;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__notes {
+
+    }
+
+    &__container {
+        display: flex;
+        justify-content: space-between;
+
+    }
+
+    &__history {
+
+    }
+}

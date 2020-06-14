@@ -1,16 +1,17 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import Navbar from "../../components/navbar/navbar.component";
 
-import { Context } from "../../provider";
-
-const Layout = ({ children }) => (
+const Layout = ({ children, showNavbar }) => (
   <React.Fragment>
     <main>{children}</main>
-    <Context.Consumer>
-      {(context) => (context.state.showNavbar ? <Navbar /> : null)}
-    </Context.Consumer>
+    {showNavbar && <Navbar />}
   </React.Fragment>
 );
 
-export default Layout;
+const mapStateToProps = (state) => ({
+  showNavbar: state.ui.showNavbar,
+});
+
+export default connect(mapStateToProps)(Layout);

@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams, useHistory } from "react-router-dom";
-
-import { Context } from "../../provider";
+import { connect } from "react-redux";
+import { addSet } from "../../redux/workout/workout.actions";
 
 import SetContainer from "../../components/set-container/set-container.component";
 
 import "./exercise.styles.scss";
 
-const Exercise = () => {
+const Exercise = ({ workoutData, addSet }) => {
   const { exerciseName } = useParams();
-  const [sets, setSets] = useState([]);
   const history = useHistory();
 
   return (
@@ -19,18 +18,11 @@ const Exercise = () => {
       </div>
       <h2 className="exercise__name">{exerciseName}</h2>
 
-      <Context.Consumer>
-        {(context) => {
-          return context.state.quickStart[exerciseName].map((set, id) => (
-            <SetContainer id={id} key={id} data={set} />
-          ));
-        }}
-      </Context.Consumer>
-      {/* {sets.map((set) => set)} */}
-      <button
-        className="btn btn--add-set"
-        onClick={() => setSets([...sets, <SetContainer />])}
-      >
+      {workoutData[exerciseName].map((set, id) => (
+        <SetContainer name={exerciseName} id={id} key={id} data={set} />
+      ))}
+
+      <button className="btn btn--add-set" onClick={() => addSet(exerciseName)}>
         <span className="exercise__icon exercise__icon--plus">+</span>Satz
         hinzufuegen
       </button>
@@ -38,4 +30,12 @@ const Exercise = () => {
   );
 };
 
-export default Exercise;
+const mapStateToProps = (state) => ({
+  workoutData: state.workout.workoutData,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addSet: (name) => dispatch(addSet(name)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Exercise);
