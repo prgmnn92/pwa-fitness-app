@@ -1,8 +1,13 @@
 import React from "react";
 
+import { Context } from "../../provider";
+
 import "./plan-creator.styles.scss";
 
 class PlanCreator extends React.Component {
+  componentDidMount() {
+    console.log(Context.Consumer);
+  }
   render() {
     return (
       <div className="plan-creator">

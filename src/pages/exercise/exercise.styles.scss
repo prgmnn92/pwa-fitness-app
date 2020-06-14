@@ -1,0 +1,37 @@
+.exercise {
+    display: grid;
+    color: #fff;
+    padding: 1rem;
+    justify-items: center;
+    grid-gap: 2rem;
+
+    &__return {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+
+        font-size: 3rem;
+        font-weight: 700;
+        line-height: 0.4;
+        width: 4rem;
+        height: 2.5rem;
+    }
+
+    &__name {
+        font-size: 1.8rem;
+        text-transform: capitalize;
+
+    }
+
+    &__icon {
+        color: #fff;
+    }
+}
+
+
+.btn {
+    &--add-set {
+        color: #fff;
+        background-color: rgba($color: #fff, $alpha: 0);
+    }
+}

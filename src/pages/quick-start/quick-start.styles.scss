@@ -8,6 +8,7 @@
   grid-template-rows: min-content 1fr;
   min-height: 88%;
   padding: 1rem;
+  overflow: hidden;
 
   &__return {
     font-size: 3rem;
