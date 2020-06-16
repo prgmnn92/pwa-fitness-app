@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 
+import { stopTime } from "../../redux/ui/ui.actions";
 import { resetWorkout, addExercise } from "../../redux/workout/workout.actions";
 import {
   hideNavbar,
@@ -10,7 +11,7 @@ import {
   startTime,
   resetTime,
 } from "../../redux/ui/ui.actions";
-import { convertObjectForExerciseBox } from "../../utility";
+import { convertObjectForExerciseBox, getTimeString } from "../../utility";
 
 import ExerciseBox from "../../components/exercise-box/exercise-box.component";
 import Modal from "../../components/modal/modal.component";
@@ -33,14 +34,22 @@ class QuickStart extends React.Component {
     startTime();
   }
 
+  postWorkout = () => {
+    fetch("http://localhost:5000/workout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(this.props.workoutData),
+    })
+      .then((res) => res.text())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+  };
+
   addNameHandler = () => {
     this.setState({ addingExercise: false });
   };
-
-  getTimeString = (time) =>
-    ("00" + Math.floor(time / 60000)).slice(-2) +
-    ":" +
-    ("00" + Math.floor((time / 1000) % 60)).slice(-2);
 
   render() {
     const {
@@ -50,6 +59,7 @@ class QuickStart extends React.Component {
       time,
       resetTime,
       resetWorkout,
+      stopTime,
     } = this.props;
     return (
       <React.Fragment>
@@ -71,8 +81,14 @@ class QuickStart extends React.Component {
             >
               &larr;
             </div>
-            <div className="quick-start__time">{this.getTimeString(time)}</div>
-            <div className="quick-start__complete">
+            <div className="quick-start__time">{getTimeString(time)}</div>
+            <div
+              className="quick-start__complete"
+              onClick={() => {
+                this.postWorkout();
+                stopTime();
+              }}
+            >
               <Link to="/complete">Complete</Link>
             </div>
           </div>
@@ -129,6 +145,7 @@ const mapDispatchToProps = (dispatch) => ({
   showNavbar: () => dispatch(showNavbar()),
   resetTime: () => dispatch(resetTime()),
   startTime: () => startTime(dispatch),
+  stopTime: () => dispatch(stopTime()),
 });
 
 export default connect(
