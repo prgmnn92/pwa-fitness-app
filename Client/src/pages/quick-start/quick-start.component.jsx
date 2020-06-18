@@ -33,20 +33,6 @@ class QuickStart extends React.Component {
     hideNavbar();
     startTime();
   }
-
-  postWorkout = () => {
-    fetch("http://localhost:5000/workout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(this.props.workoutData),
-    })
-      .then((res) => res.text())
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
-  };
-
   addNameHandler = () => {
     this.setState({ addingExercise: false });
   };
@@ -82,13 +68,7 @@ class QuickStart extends React.Component {
               &larr;
             </div>
             <div className="quick-start__time">{getTimeString(time)}</div>
-            <div
-              className="quick-start__complete"
-              onClick={() => {
-                this.postWorkout();
-                stopTime();
-              }}
-            >
+            <div className="quick-start__complete" onClick={() => stopTime()}>
               <Link to="/complete">Complete</Link>
             </div>
           </div>

@@ -1,7 +1,9 @@
+import { getTimeString } from "../utility";
+
 export const postWorkout = (workoutData, title, time) => {
   let data = {
     title: title,
-    duration: time,
+    duration: getTimeString(time),
     exercises: workoutData,
   };
 

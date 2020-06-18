@@ -23,42 +23,42 @@ export const convertObjectForExerciseBox = (object) => {
   return newArray;
 };
 
-const dummyData = {
-  Bankdruecken: [
-    {
-      Wiederholungen: 10,
-      Gewicht: 50,
-      Complete: true,
-    },
-    {
-      Wiederholungen: 10,
-      Gewicht: 50,
-      Complete: true,
-    },
-    {
-      Wiederholungen: 10,
-      Gewicht: 50,
-      Complete: true,
-    },
-  ],
-  Kreuzheben: [
-    {
-      Wiederholungen: 10,
-      Gewicht: 50,
-      Complete: true,
-    },
-    {
-      Wiederholungen: 10,
-      Gewicht: 50,
-      Complete: true,
-    },
-    {
-      Wiederholungen: 10,
-      Gewicht: 50,
-      Complete: true,
-    },
-  ],
-};
+// const dummyData = {
+//   Bankdruecken: [
+//     {
+//       Wiederholungen: 10,
+//       Gewicht: 50,
+//       Complete: true,
+//     },
+//     {
+//       Wiederholungen: 10,
+//       Gewicht: 50,
+//       Complete: true,
+//     },
+//     {
+//       Wiederholungen: 10,
+//       Gewicht: 50,
+//       Complete: true,
+//     },
+//   ],
+//   Kreuzheben: [
+//     {
+//       Wiederholungen: 10,
+//       Gewicht: 50,
+//       Complete: true,
+//     },
+//     {
+//       Wiederholungen: 10,
+//       Gewicht: 50,
+//       Complete: true,
+//     },
+//     {
+//       Wiederholungen: 10,
+//       Gewicht: 50,
+//       Complete: true,
+//     },
+//   ],
+// };
 
 export const getTimeString = (time) =>
   ("00" + Math.floor(time / 60000)).slice(-2) +

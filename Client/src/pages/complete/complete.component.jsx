@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { sumUpSets, sumUpWeight, getTimeString } from "../../utility";
+import { postWorkout } from "../../api/workout-api";
 
 import "./complete.styles.scss";
 
@@ -17,7 +18,12 @@ const Complete = ({ workoutData, time }) => {
           &larr;
         </div>
         <div className="complete__text">Uebersicht</div>
-        <div className="complete__check">&#10003;</div>
+        <div
+          className="complete__check"
+          onClick={postWorkout(workoutData, "TITEL", time)}
+        >
+          &#10003;
+        </div>
       </div>
 
       <h2 className="h2-heading">Improvisiertes Training</h2>
@@ -41,22 +47,22 @@ const Complete = ({ workoutData, time }) => {
       </div>
 
       <div className="complete__history">
-        {Object.keys(workoutData).map((key) => {
-          return (
-            <React.Fragment>
-              <p className="complete__list-title">{key}</p>
-              <ul className="complete__list">
-                {workoutData[key].map((set) =>
-                  set.Complete ? (
-                    <li className="complete__item">
-                      {set.Gewicht} kg x {set.Wiederholungen} Wdh.
-                    </li>
-                  ) : null
-                )}
-              </ul>
-            </React.Fragment>
-          );
-        })}
+        {Object.keys(workoutData).map((key) => (
+          <React.Fragment key={key + "-" + Math.random()}>
+            <p key={key + "-" + Math.random()} className="complete__list-title">
+              {key}
+            </p>
+            <ul className="complete__list">
+              {workoutData[key].map((set, id) =>
+                set.Complete ? (
+                  <li key={key + "-" + id} className="complete__item">
+                    {set.Gewicht} kg x {set.Wiederholungen} Wdh.
+                  </li>
+                ) : null
+              )}
+            </ul>
+          </React.Fragment>
+        ))}
       </div>
     </div>
   );

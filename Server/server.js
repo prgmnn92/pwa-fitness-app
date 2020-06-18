@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const moment = require("moment");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -13,7 +14,11 @@ app.use(cors());
 
 let uri = "mongodb://localhost:27017/workoutDB";
 
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(uri, {
+  useFindAndModify: false,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const db = mongoose.connection;
 
@@ -24,7 +29,8 @@ let Schema = mongoose.Schema;
 //Ein Trainingstag
 let workoutSchema = new Schema({
   title: String,
-  date: Date,
+  date: String,
+  duration: String,
   exercises: [
     {
       name: String,
@@ -41,53 +47,163 @@ let workoutSchema = new Schema({
 //Eine Uebung
 let exerciseSchema = new Schema({
   name: String,
-  sets: [
+  allSets: [
     {
-      date: Date,
-      reps: Number,
-      weight: Number,
-    },
-  ],
-});
-
-let workout = mongoose.model("workout", workoutSchema);
-let exercise = mongoose.model("exercise", exerciseSchema);
-
-let instance = new workout({
-  title: "Improvisiertes Training",
-  date: new Date(),
-  exercises: [
-    {
-      name: "Bankdruecken",
+      date: String,
       sets: [
         {
-          reps: 10,
-          weight: 20,
-        },
-        {
-          reps: 10,
-          weight: 20,
-        },
-        {
-          reps: 10,
-          weight: 20,
-        },
-        {
-          reps: 10,
-          weight: 20,
+          reps: Number,
+          weight: Number,
         },
       ],
     },
   ],
 });
 
+let Workout = mongoose.model("workout", workoutSchema);
+let Exercise = mongoose.model("exercise", exerciseSchema);
+
+const bulkArray = async (inputData, Model) => {
+  try {
+    let exerciseArray = await inputData.map(({ name, sets }) => {
+      let tmp;
+      let date = moment().format("DD/MM/YYYY");
+
+      Exercise.findOne({ name: name }).then((err, res) => {
+        if (!err) {
+          if (res) {
+            tmp = {
+              updateOne: {
+                filter: { name: name },
+                update: {
+                  $push: {
+                    allSets: {
+                      date: date,
+                      sets: [...sets],
+                    },
+                  },
+                },
+
+                upsert: true,
+              },
+            };
+          } else {
+            tmp = {
+              insertOne: {
+                document: {
+                  name: name,
+                  allSets: [
+                    {
+                      date: date,
+                      sets: [...sets],
+                    },
+                  ],
+                },
+              },
+            };
+          }
+        }
+      });
+
+      return tmp;
+    });
+
+    return exerciseArray;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 //Workout daten empfangen
-app.post("/workout", (req, res) => {
+app.post("/workout", async (req, res) => {
   let workoutData = req.body;
+  let date = moment().format("DD/MM/YYYY");
 
-  console.log(workoutData);
+  //console.log(workoutData);
 
-  res.send("WUHUWWW");
+  let title = workoutData.title ? workoutData.title : "Improvisiertes Training";
+
+  let exerciseArray = [];
+
+  let keyList = [];
+
+  let exercises = Object.keys(workoutData.exercises).map((key) => {
+    let sets = workoutData.exercises[key].map(
+      ({ Wiederholungen, Gewicht }) => ({
+        reps: Wiederholungen,
+        weight: Gewicht,
+      })
+    );
+
+    keyList.push({ name: key, sets: [...sets] });
+
+    return {
+      name: key,
+      sets: [...sets],
+    };
+  });
+
+  const arr = await bulkArray(keyList, Exercise);
+
+  // keyList.forEach(async ({ name, sets }) => {
+  //   await Exercise.findOne({ name: name }).then((err, result) => {
+  //     if (!err) {
+  //       if (result) {
+  //         exerciseArray.push({
+  //           updateOne: {
+  //             filter: { name: name },
+  //             update: {
+  //               $push: {
+  //                 allSets: {
+  //                   date: date,
+  //                   sets: [...sets],
+  //                 },
+  //               },
+  //             },
+
+  //             upsert: true,
+  //           },
+  //         });
+  //       } else {
+  //         exerciseArray.push({
+  //           insertOne: {
+  //             document: {
+  //               name: name,
+  //               allSets: [
+  //                 {
+  //                   date: date,
+  //                   sets: [...sets],
+  //                 },
+  //               ],
+  //             },
+  //           },
+  //         });
+  //       }
+  //     } else {
+  //       console.log(err);
+  //     }
+  //   });
+  // });
+
+  console.log("res", arr);
+
+  await Exercise.bulkWrite([...arr])
+    .then((res) => {
+      // Prints "1 1 1"
+      console.log(res.insertedCount, res.modifiedCount, res.deletedCount);
+    })
+    .catch((err) => console.log("bulk error:", err));
+
+  const workout = new Workout({
+    title: workoutData.title,
+    date: date,
+    duration: workoutData.duration,
+    exercises: [...exercises],
+  });
+
+  workout.save((err) =>
+    err ? res.send(err) : res.send("Succesfully added workout")
+  );
 });
 
 // db.once("open", function () {

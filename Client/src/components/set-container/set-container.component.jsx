@@ -7,12 +7,23 @@ import { completeSet } from "../../redux/workout/workout.actions";
 const SetContainer = ({ workoutData, id, completeSet, name }) => {
   const [weight, setWeight] = useState(workoutData[name][id].Gewicht);
   const [reps, setReps] = useState(workoutData[name][id].Wiederholungen);
+  const [complete, setComplete] = useState(workoutData[name][id].Complete);
 
-  return (
+  const handlerSets = () => {
+    setComplete(true);
+    completeSet(name, id, weight, reps);
+  };
+
+  return complete ? (
+    <div className="set-container-complete">
+      Satz {id + 1} abgeschlossen
+      <div className="set-container__menu"></div>
+    </div>
+  ) : (
     <div className="set-container">
       <div className="set-container__set">
         <span>Satz {id + 1}</span>
-        <div className="set-container__menu">&middot;</div>
+        <div className="set-container__menu"></div>
       </div>
 
       <div className="set-container__box">
@@ -54,7 +65,7 @@ const SetContainer = ({ workoutData, id, completeSet, name }) => {
       <button
         disabled={workoutData[name][id].Complete}
         className="btn btn--complete"
-        onClick={() => completeSet(name, id, weight, reps)}
+        onClick={() => handlerSets()}
       >
         Satz abschliessen
       </button>

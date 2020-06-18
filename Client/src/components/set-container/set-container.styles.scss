@@ -1,87 +1,111 @@
 .set-container {
-    width: 90%;
-    height: 22rem;
-    display: grid;
-    grid-template-rows: min-content repeat(2, 1fr) min-content;
-    background: darken(#2c3344,  3);
+  width: 90%;
+  height: 22rem;
+  display: grid;
+  grid-template-rows: min-content repeat(2, 1fr) min-content;
+  background: darken(#2c3344, 3);
 
-    &__set {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        
-        span {
-            font-size: 1.8rem;
+  &__menu {
+    position: absolute;
 
-        }
+    top: 50%;
+    right: 0;
+    width: 4rem;
+    height: 4rem;
+    line-height: 0;
+    font-size: 3.5rem;
+    color: rgba(255, 255, 255, 0.637);
+    text-align: right;
+    &::after {
+      content: "\2807";
+    }
+  }
 
-        span + * {
-            font-size: 2rem;
-            position: absolute;
-            right: 0;
-            top: 50%;
-        }
+  &__set {
+    position: relative;
+    display: flex;
+    justify-content: center;
 
-
+    span {
+      font-size: 1.8rem;
     }
 
-    &__box {
-        display: flex;
-        padding: 1rem 0;
-        justify-content: space-around;
-        font-size: 1.5rem;
+    span + * {
+      font-size: 2rem;
+      position: absolute;
+      right: 0;
+      top: 50%;
     }
+  }
 
+  &__box {
+    display: flex;
+    padding: 1rem 0;
+    justify-content: space-around;
+    font-size: 1.5rem;
+  }
 
-    &__box-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        align-self: start;
-        width: 15rem;
+  &__box-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: start;
+    width: 15rem;
 
-        p {
-            margin-bottom: 1rem;
-        }
+    p {
+      margin-bottom: 1rem;
     }
+  }
 
-    &__icon {
-        align-self: center;
-        width: 3rem;
-        height: 3rem;
-        border-radius: 50%;
-        border: 1px solid rgba(255, 255, 255, 0.637);
-        position: relative;
+  &__icon {
+    align-self: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.637);
+    position: relative;
 
-        &--plus {
-            &::before {
-                content: '+';
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-
-
-
-            }
-        }
-        &--minus {
-            &::before {
-                content: '-';
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-        }
+    &--plus {
+      &::before {
+        content: "+";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
+    &--minus {
+      &::before {
+        content: "-";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
 }
 
 .btn {
-    &--complete {
-        height: 3rem;
-        color: #fff;
-        width: 100%;
-        background-color: rgb(29, 122, 41);
-    }
+  &--complete {
+    height: 3rem;
+    color: #fff;
+    width: 100%;
+    background-color: rgb(29, 122, 41);
+  }
+}
+
+.set-container-complete {
+  position: relative;
+  font-size: 1.6rem;
+  font-weight: 500;
+  width: 90%;
+  height: 4rem;
+  background-color: rgb(29, 122, 41);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  box-shadow: 0 0.7rem 1.5rem rgba($color: #000000, $alpha: 0.1);
 }

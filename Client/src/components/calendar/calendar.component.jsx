@@ -3,53 +3,46 @@ import React from "react";
 import "./calendar.styles.scss";
 
 class Calendar extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      days: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-      months: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ],
-      weekDays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-      lastMonth: 11,
-      month: 0,
-      nextMonth: 1,
-      year: 0,
-      currentMonth: 0,
-      currentYear: 0,
-      calendar: [
-        { id: "week-1", data: [0, 0, 0, 0, 0, 0, 0] },
-        { id: "week-2", data: [0, 0, 0, 0, 0, 0, 0] },
-        { id: "week-3", data: [0, 0, 0, 0, 0, 0, 0] },
-        { id: "week-4", data: [0, 0, 0, 0, 0, 0, 0] },
-        { id: "week-5", data: [0, 0, 0, 0, 0, 0, 0] },
-        { id: "week-6", data: [0, 0, 0, 0, 0, 0, 0] },
-      ],
-      holidays: [],
-      holiday: "",
-    };
+  state = {
+    days: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+    months: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+    weekDays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    lastMonth: 11,
+    month: 0,
+    nextMonth: 1,
+    year: 0,
+    currentMonth: 0,
+    currentYear: 0,
+    calendar: [
+      { id: "week-1", data: [0, 0, 0, 0, 0, 0, 0] },
+      { id: "week-2", data: [0, 0, 0, 0, 0, 0, 0] },
+      { id: "week-3", data: [0, 0, 0, 0, 0, 0, 0] },
+      { id: "week-4", data: [0, 0, 0, 0, 0, 0, 0] },
+      { id: "week-5", data: [0, 0, 0, 0, 0, 0, 0] },
+      { id: "week-6", data: [0, 0, 0, 0, 0, 0, 0] },
+    ],
+  };
 
-    this.previousCalendar = this.previousCalendar.bind(this);
-    this.nextCalendar = this.nextCalendar.bind(this);
-  }
-
-  componentWillMount() {
+  componentDidMount() {
     const now = new Date();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
 
     this.setState({
+      ...this.state,
       currentMonth,
       currentYear,
       month: currentMonth,
@@ -59,7 +52,7 @@ class Calendar extends React.Component {
     this.setCalendar(new Date(currentYear, currentMonth, 1));
   }
 
-  setMonth(date) {
+  setMonth = (date) => {
     const month = date.getMonth();
     const lastMonth = month === 0 ? 11 : month - 1;
     const nextMonth = month === 11 ? 0 : month + 1;
@@ -71,9 +64,9 @@ class Calendar extends React.Component {
     });
 
     return { lastMonth, month, nextMonth };
-  }
+  };
 
-  setCalendar(date) {
+  setCalendar = (date) => {
     const { lastMonth, month, nextMonth } = this.setMonth(date);
     const year = date.getFullYear();
     const weekday = date.getDay();
@@ -168,9 +161,9 @@ class Calendar extends React.Component {
         { id: "week-6", data: sixthWeek },
       ],
     });
-  }
+  };
 
-  checkLeapYear(year) {
+  checkLeapYear = (year) => {
     let days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
       days = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -179,20 +172,20 @@ class Calendar extends React.Component {
       days,
     });
     return days;
-  }
+  };
 
-  previousCalendar() {
+  previousCalendar = () => {
     const month = this.state.month !== 0 ? this.state.month - 1 : 11;
     const year = this.state.month !== 0 ? this.state.year : this.state.year - 1;
     this.setCalendar(new Date(year, month, 1));
-  }
+  };
 
-  nextCalendar() {
+  nextCalendar = () => {
     const month = this.state.month !== 11 ? this.state.month + 1 : 0;
     const year =
       this.state.month !== 11 ? this.state.year : this.state.year + 1;
     this.setCalendar(new Date(year, month, 1));
-  }
+  };
 
   render() {
     return (
@@ -223,16 +216,18 @@ class Calendar extends React.Component {
         </div>
         {this.state.calendar.map((week) => (
           <div key={week.id} className="calendar__week">
-            {week.data.map((day) => (
-              <div
-                key={`${day.month}${day.value}`}
-                className={`calendar__day ${day.class}`}
-              >
-                {day.value < 10 && day.value !== " "
-                  ? `0${day.value}`
-                  : day.value}
-              </div>
-            ))}
+            {week.data.map((day) =>
+              day.class !== undefined ? (
+                <div
+                  key={`${day.month}${day.value}`}
+                  className={`calendar__day ${day.class}`}
+                >
+                  {day.value < 10 && day.value !== " "
+                    ? `0${day.value}`
+                    : day.value}
+                </div>
+              ) : null
+            )}
           </div>
         ))}
       </div>
