@@ -2,28 +2,65 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import "./set-container.styles.scss";
-import { completeSet } from "../../redux/workout/workout.actions";
+import { completeSet, removeSet } from "../../redux/workout/workout.actions";
 
-const SetContainer = ({ workoutData, id, completeSet, name }) => {
+const SetContainer = ({ workoutData, id, completeSet, name, removeSet }) => {
   const [weight, setWeight] = useState(workoutData[name][id].Gewicht);
   const [reps, setReps] = useState(workoutData[name][id].Wiederholungen);
   const [complete, setComplete] = useState(workoutData[name][id].Complete);
+  const [menu, setMenu] = useState(false);
 
   const handlerSets = () => {
     setComplete(true);
     completeSet(name, id, weight, reps);
   };
 
+  const resetSet = () => {
+    setWeight(0);
+    setReps(0);
+    setComplete(false);
+  };
+
+  const kebab = (
+    <div className="kebab" onClick={() => setMenu(!menu)}>
+      <figure></figure>
+      <figure
+        className={menu ? "kebab__middle active" : "kebab__middle"}
+      ></figure>
+      <p className={menu ? "kebab__cross active" : "kebab__cross"}>x</p>
+      <figure></figure>
+      <ul className={menu ? "kebab__dropdown active" : "kebab__dropdown"}>
+        {complete ? (
+          <li>
+            <span href="#" onClick={() => setComplete(false)}>
+              Oeffnen
+            </span>
+          </li>
+        ) : null}
+        <li>
+          <span href="#" onClick={() => removeSet(name, id)}>
+            Loeschen
+          </span>
+        </li>
+        <li>
+          <span href="#" onClick={() => resetSet()}>
+            Reset
+          </span>
+        </li>
+      </ul>
+    </div>
+  );
+
   return complete ? (
     <div className="set-container-complete">
-      Satz {id + 1} abgeschlossen
-      <div className="set-container__menu"></div>
+      <span>Satz {id + 1} abgeschlossen</span>
+      {kebab}
     </div>
   ) : (
     <div className="set-container">
       <div className="set-container__set">
         <span>Satz {id + 1}</span>
-        <div className="set-container__menu"></div>
+        {kebab}
       </div>
 
       <div className="set-container__box">
@@ -63,7 +100,7 @@ const SetContainer = ({ workoutData, id, completeSet, name }) => {
         ></div>
       </div>
       <button
-        disabled={workoutData[name][id].Complete}
+        disabled={complete}
         className="btn btn--complete"
         onClick={() => handlerSets()}
       >
@@ -80,5 +117,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   completeSet: (name, number, weight, reps) =>
     dispatch(completeSet(name, number, weight, reps)),
+  removeSet: (name, id) => dispatch(removeSet(name, id)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(SetContainer);

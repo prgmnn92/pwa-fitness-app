@@ -63,69 +63,12 @@ let exerciseSchema = new Schema({
 let Workout = mongoose.model("workout", workoutSchema);
 let Exercise = mongoose.model("exercise", exerciseSchema);
 
-const bulkArray = async (inputData, Model) => {
-  try {
-    let exerciseArray = await inputData.map(({ name, sets }) => {
-      let tmp;
-      let date = moment().format("DD/MM/YYYY");
-
-      Exercise.findOne({ name: name }).then((err, res) => {
-        if (!err) {
-          if (res) {
-            tmp = {
-              updateOne: {
-                filter: { name: name },
-                update: {
-                  $push: {
-                    allSets: {
-                      date: date,
-                      sets: [...sets],
-                    },
-                  },
-                },
-
-                upsert: true,
-              },
-            };
-          } else {
-            tmp = {
-              insertOne: {
-                document: {
-                  name: name,
-                  allSets: [
-                    {
-                      date: date,
-                      sets: [...sets],
-                    },
-                  ],
-                },
-              },
-            };
-          }
-        }
-      });
-
-      return tmp;
-    });
-
-    return exerciseArray;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 //Workout daten empfangen
 app.post("/workout", async (req, res) => {
   let workoutData = req.body;
   let date = moment().format("DD/MM/YYYY");
 
-  //console.log(workoutData);
-
   let title = workoutData.title ? workoutData.title : "Improvisiertes Training";
-
-  let exerciseArray = [];
-
-  let keyList = [];
 
   let exercises = Object.keys(workoutData.exercises).map((key) => {
     let sets = workoutData.exercises[key].map(
@@ -135,64 +78,11 @@ app.post("/workout", async (req, res) => {
       })
     );
 
-    keyList.push({ name: key, sets: [...sets] });
-
     return {
       name: key,
       sets: [...sets],
     };
   });
-
-  const arr = await bulkArray(keyList, Exercise);
-
-  // keyList.forEach(async ({ name, sets }) => {
-  //   await Exercise.findOne({ name: name }).then((err, result) => {
-  //     if (!err) {
-  //       if (result) {
-  //         exerciseArray.push({
-  //           updateOne: {
-  //             filter: { name: name },
-  //             update: {
-  //               $push: {
-  //                 allSets: {
-  //                   date: date,
-  //                   sets: [...sets],
-  //                 },
-  //               },
-  //             },
-
-  //             upsert: true,
-  //           },
-  //         });
-  //       } else {
-  //         exerciseArray.push({
-  //           insertOne: {
-  //             document: {
-  //               name: name,
-  //               allSets: [
-  //                 {
-  //                   date: date,
-  //                   sets: [...sets],
-  //                 },
-  //               ],
-  //             },
-  //           },
-  //         });
-  //       }
-  //     } else {
-  //       console.log(err);
-  //     }
-  //   });
-  // });
-
-  console.log("res", arr);
-
-  await Exercise.bulkWrite([...arr])
-    .then((res) => {
-      // Prints "1 1 1"
-      console.log(res.insertedCount, res.modifiedCount, res.deletedCount);
-    })
-    .catch((err) => console.log("bulk error:", err));
 
   const workout = new Workout({
     title: workoutData.title,
@@ -204,11 +94,9 @@ app.post("/workout", async (req, res) => {
   workout.save((err) =>
     err ? res.send(err) : res.send("Succesfully added workout")
   );
-});
 
-// db.once("open", function () {
-//   instance.save((err) => (err ? console.log(err) : null));
-// });
+  console.log("Added a workout");
+});
 
 app.listen(port, (error) => {
   if (error) throw error;

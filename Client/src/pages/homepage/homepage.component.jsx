@@ -1,4 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
+import { connect } from "react-redux";
+
+import { resetWorkout } from "../../redux/workout/workout.actions";
 
 import WeekView from "../../components/week-view/week-view.component";
 import BigButton from "../../components/big-button/big-button.component";
@@ -8,22 +11,22 @@ import { ReactComponent as Play } from "../../assets/img/SVG/play3.svg";
 
 import "./homepage.styles.scss";
 
-export class Homepage extends Component {
-  render() {
-    return (
-      <div className="homepage">
-        <WeekView />
+const Homepage = ({ resetWorkout }) => (
+  <div className="homepage">
+    <WeekView />
 
-        <BigButton url="/plan-creator" Icon={Plus}>
-          Plan erstellen
-        </BigButton>
+    <BigButton url="/plan-creator" Icon={Plus}>
+      Plan erstellen
+    </BigButton>
 
-        <BigButton url="/quick-start" Icon={Play}>
-          Schnellstart
-        </BigButton>
-      </div>
-    );
-  }
-}
+    <BigButton url="/quick-start" Icon={Play} clickHandler={resetWorkout}>
+      Schnellstart
+    </BigButton>
+  </div>
+);
 
-export default Homepage;
+const mapDisptachToProps = (dispatch) => ({
+  resetWorkout: () => dispatch(resetWorkout()),
+});
+
+export default connect(null, mapDisptachToProps)(Homepage);

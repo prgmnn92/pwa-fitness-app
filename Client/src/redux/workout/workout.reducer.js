@@ -20,8 +20,41 @@ const workoutReducer = (state = INITIAL_STATE, action) => {
         },
       };
     case WorkoutActionTypes.EXERCISE_REMOVE:
+      let newWorkoutData = {};
+      Object.keys(state.workoutData)
+        .map((key) => {
+          if (key !== action.payload) {
+            return {
+              [key]: state.workoutData[key],
+            };
+          } else {
+            return null;
+          }
+        })
+        .filter((object) => object !== null)
+        .forEach((object) => {
+          let key = Object.keys(object);
+
+          newWorkoutData[key] = object[key];
+        });
+
       return {
         ...state,
+        workoutData: { ...newWorkoutData },
+      };
+    case WorkoutActionTypes.EXERCISE_RESET:
+      return {
+        ...state,
+        workoutData: {
+          ...state.workoutData,
+          [action.payload]: [
+            {
+              Wiederholungen: 0,
+              Gewicht: 0,
+              Complete: false,
+            },
+          ],
+        },
       };
     case WorkoutActionTypes.SET_ADD:
       return {
@@ -41,6 +74,12 @@ const workoutReducer = (state = INITIAL_STATE, action) => {
     case WorkoutActionTypes.SET_REMOVE:
       return {
         ...state,
+        workoutData: {
+          ...state.workoutData,
+          [action.payload.name]: state.workoutData[action.payload.name].filter(
+            (_, id) => id !== action.payload.id
+          ),
+        },
       };
     case WorkoutActionTypes.SET_COMPLETE:
       let tempWorkoutData = {

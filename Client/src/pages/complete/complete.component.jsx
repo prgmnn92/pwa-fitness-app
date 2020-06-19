@@ -1,15 +1,26 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-
 import { connect } from "react-redux";
 
 import { sumUpSets, sumUpWeight, getTimeString } from "../../utility";
 import { postWorkout } from "../../api/workout-api";
+import { resetWorkout } from "../../redux/workout/workout.actions";
 
 import "./complete.styles.scss";
 
-const Complete = ({ workoutData, time }) => {
+const Complete = ({ workoutData, time, resetWorkout }) => {
   const history = useHistory();
+
+  const completeWorkout = () => {
+    //postworkout
+    postWorkout(workoutData, "titel", time)
+      .then(resetWorkout) //delete workout data
+      .catch((err) => console.log(err));
+
+    // return to homepage
+
+    history.push("/");
+  };
 
   return (
     <div className="complete">
@@ -18,10 +29,7 @@ const Complete = ({ workoutData, time }) => {
           &larr;
         </div>
         <div className="complete__text">Uebersicht</div>
-        <div
-          className="complete__check"
-          onClick={postWorkout(workoutData, "TITEL", time)}
-        >
+        <div className="complete__check" onClick={() => completeWorkout()}>
           &#10003;
         </div>
       </div>
@@ -73,4 +81,8 @@ const mapStateToProps = (state) => ({
   time: state.ui.time,
 });
 
-export default connect(mapStateToProps)(Complete);
+const mapDispatchToProps = (dispatch) => ({
+  resetWorkout: () => dispatch(resetWorkout()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Complete);

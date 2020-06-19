@@ -69,7 +69,7 @@ class QuickStart extends React.Component {
             </div>
             <div className="quick-start__time">{getTimeString(time)}</div>
             <div className="quick-start__complete" onClick={() => stopTime()}>
-              <Link to="/complete">Complete</Link>
+              <Link to="/complete">Abschliessen</Link>
             </div>
           </div>
           <div className="quick-start__container">
