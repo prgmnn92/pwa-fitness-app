@@ -64,39 +64,53 @@ let Workout = mongoose.model("workout", workoutSchema);
 let Exercise = mongoose.model("exercise", exerciseSchema);
 
 //Workout daten empfangen
-app.post("/workout", async (req, res) => {
-  let workoutData = req.body;
-  let date = moment().format("DD/MM/YYYY");
+app
+  .get("/workout", (req, res) => {
+    Workout.find((err, results) => {
+      if (!err) {
+        res.send(results);
 
-  let title = workoutData.title ? workoutData.title : "Improvisiertes Training";
+        console.log(results);
+      } else {
+        res.send(err);
+      }
+    });
+  })
+  .post("/workout", (req, res) => {
+    let workoutData = req.body;
+    let date = moment().format("DD/MM/YYYY");
 
-  let exercises = Object.keys(workoutData.exercises).map((key) => {
-    let sets = workoutData.exercises[key].map(
-      ({ Wiederholungen, Gewicht }) => ({
-        reps: Wiederholungen,
-        weight: Gewicht,
-      })
+    let title = workoutData.title
+      ? workoutData.title
+      : "Improvisiertes Training";
+
+    let exercises = Object.keys(workoutData.exercises).map((key) => {
+      let sets = workoutData.exercises[key].map(
+        ({ Wiederholungen, Gewicht }) => ({
+          reps: Wiederholungen,
+          weight: Gewicht,
+        })
+      );
+
+      return {
+        name: key,
+        sets: [...sets],
+      };
+    });
+
+    const workout = new Workout({
+      title: workoutData.title,
+      date: date,
+      duration: workoutData.duration,
+      exercises: [...exercises],
+    });
+
+    workout.save((err) =>
+      err ? res.send(err) : res.send("Succesfully added workout")
     );
 
-    return {
-      name: key,
-      sets: [...sets],
-    };
+    console.log("Added a workout");
   });
-
-  const workout = new Workout({
-    title: workoutData.title,
-    date: date,
-    duration: workoutData.duration,
-    exercises: [...exercises],
-  });
-
-  workout.save((err) =>
-    err ? res.send(err) : res.send("Succesfully added workout")
-  );
-
-  console.log("Added a workout");
-});
 
 app.listen(port, (error) => {
   if (error) throw error;

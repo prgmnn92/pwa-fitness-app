@@ -41,3 +41,8 @@ export const completeSet = (name, number, weight, reps) => ({
   type: WorkoutActionTypes.SET_COMPLETE,
   payload: { name, number, weight, reps },
 });
+
+export const saveWorkouts = (workouts) => ({
+  type: WorkoutActionTypes.WORKOUT_SAVE,
+  payload: workouts,
+});

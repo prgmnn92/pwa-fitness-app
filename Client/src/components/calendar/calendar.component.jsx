@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import "./calendar.styles.scss";
 
@@ -66,13 +67,47 @@ class Calendar extends React.Component {
     return { lastMonth, month, nextMonth };
   };
 
+  checkWeek(year, weekArr, workoutData) {
+    // array mit [[MONAT, TAG, JAHR], [MONAT, TAG, JAHR]]....
+    let obj = {};
+    console.log(workoutData);
+
+    let newData = [];
+
+    Object.keys(workoutData).forEach((key) => {
+      newData.push(workoutData[key]);
+    });
+
+    let splittedDates = newData.map((workout) => workout.date.split("/"));
+
+    splittedDates.forEach((date) => {
+      obj[date[0] + date[1] + date[2]] = true;
+    });
+
+    let checkedWeek = weekArr.map((day) => {
+      let calcMonth = day.month + 1;
+
+      calcMonth = ("00" + calcMonth).slice(-2);
+      let calcDay = ("00" + day.value).slice(-2);
+
+      return obj[calcDay + calcMonth + year]
+        ? {
+            ...day,
+            class: day.class + " activ",
+          }
+        : day;
+    });
+
+    return checkedWeek;
+  }
+
   setCalendar = (date) => {
     const { lastMonth, month, nextMonth } = this.setMonth(date);
     const year = date.getFullYear();
     const weekday = date.getDay();
     const days = this.checkLeapYear(year);
     let nextMonthDay = 0;
-
+    console.log(year);
     const firstWeek = this.state.calendar[0].data.map((day, index) => {
       if (index < weekday) {
         const value = days[lastMonth] - (weekday - index) + 1;
@@ -88,6 +123,9 @@ class Calendar extends React.Component {
         month,
       };
     });
+
+    console.log(firstWeek);
+
     const secondWeek = this.state.calendar[0].data.map((day, index) => {
       const value = firstWeek[6].value + index + 1;
       return {
@@ -104,7 +142,7 @@ class Calendar extends React.Component {
         month,
       };
     });
-    const forthWeek = this.state.calendar[0].data.map((day, index) => {
+    let forthWeek = this.state.calendar[0].data.map((day, index) => {
       const value = thirdWeek[6].value + index + 1;
       return {
         value,
@@ -112,6 +150,11 @@ class Calendar extends React.Component {
         month,
       };
     });
+
+    forthWeek = this.checkWeek(year, forthWeek, this.props.pastWorkoutData);
+
+    console.log(forthWeek);
+
     const fifthWeek = this.state.calendar[0].data.map((day, index) => {
       if (forthWeek[6].value + index + 1 > days[month]) {
         nextMonthDay += 1;
@@ -235,4 +278,8 @@ class Calendar extends React.Component {
   }
 }
 
-export default Calendar;
+const mapStateToProps = (state) => ({
+  pastWorkoutData: state.workout.pastWorkoutData,
+});
+
+export default connect(mapStateToProps)(Calendar);

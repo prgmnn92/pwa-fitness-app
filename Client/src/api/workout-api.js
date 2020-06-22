@@ -31,3 +31,21 @@ export const postWorkout = (workoutData, title, time) => {
     }
   });
 };
+
+export const getWorkouts = () => {
+  return new Promise((resolve, reject) => {
+    fetch("http://localhost:5000/workout", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};

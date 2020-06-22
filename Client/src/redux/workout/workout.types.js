@@ -6,6 +6,7 @@ const WorkoutActionTypes = {
   EXERCISE_ADD: "ADD_EXERCISE",
   EXERCISE_REMOVE: "REMOVE_EXERCISE",
   EXERCISE_RESET: "EXERCISE_RESET",
+  WORKOUT_SAVE: "WORKOUT_SAVE",
 };
 
 export default WorkoutActionTypes;

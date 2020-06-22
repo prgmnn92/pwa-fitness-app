@@ -2,6 +2,7 @@ import WorkoutActionTypes from "./workout.types";
 
 const INITIAL_STATE = {
   workoutData: {},
+  pastWorkoutData: {},
 };
 
 const workoutReducer = (state = INITIAL_STATE, action) => {
@@ -10,6 +11,11 @@ const workoutReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         workoutData: {},
+      };
+    case WorkoutActionTypes.WORKOUT_SAVE:
+      return {
+        ...state,
+        pastWorkoutData: { ...action.payload },
       };
     case WorkoutActionTypes.EXERCISE_ADD:
       return {
