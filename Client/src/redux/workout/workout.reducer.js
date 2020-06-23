@@ -3,10 +3,23 @@ import WorkoutActionTypes from "./workout.types";
 const INITIAL_STATE = {
   workoutData: {},
   pastWorkoutData: {},
+  timeline: {},
 };
 
 const workoutReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case WorkoutActionTypes.TIMELINE_SHOW:
+      //action.payload . year . month(+1), value, class
+      // mit der payload daten aus dem pastworkout object suchen und in die timeline einfuegen... body head
+
+      let obj = {
+        body: "exercises",
+        head: "title",
+      };
+      return {
+        ...state,
+        timeline: { ...obj },
+      };
     case WorkoutActionTypes.WORKOUT_RESET:
       return {
         ...state,

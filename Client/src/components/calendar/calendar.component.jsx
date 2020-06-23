@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { showTimeline } from "../../redux/workout/workout.actions";
+
 import "./calendar.styles.scss";
 
 class Calendar extends React.Component {
@@ -67,10 +69,9 @@ class Calendar extends React.Component {
     return { lastMonth, month, nextMonth };
   };
 
-  checkWeek(year, weekArr, workoutData) {
+  checkWeek(year, workoutData, weekArr) {
     // array mit [[MONAT, TAG, JAHR], [MONAT, TAG, JAHR]]....
     let obj = {};
-    console.log(workoutData);
 
     let newData = [];
 
@@ -93,12 +94,21 @@ class Calendar extends React.Component {
       return obj[calcDay + calcMonth + year]
         ? {
             ...day,
-            class: day.class + " activ",
+            class: day.class + " active",
           }
         : day;
     });
 
     return checkedWeek;
+  }
+
+  createCalendarData(year, workoutData, ...weeks) {
+    return weeks.map((week, id) => {
+      return {
+        id: "week-" + (id + 1),
+        data: this.checkWeek(year, workoutData, week),
+      };
+    });
   }
 
   setCalendar = (date) => {
@@ -142,7 +152,7 @@ class Calendar extends React.Component {
         month,
       };
     });
-    let forthWeek = this.state.calendar[0].data.map((day, index) => {
+    const forthWeek = this.state.calendar[0].data.map((day, index) => {
       const value = thirdWeek[6].value + index + 1;
       return {
         value,
@@ -150,10 +160,6 @@ class Calendar extends React.Component {
         month,
       };
     });
-
-    forthWeek = this.checkWeek(year, forthWeek, this.props.pastWorkoutData);
-
-    console.log(forthWeek);
 
     const fifthWeek = this.state.calendar[0].data.map((day, index) => {
       if (forthWeek[6].value + index + 1 > days[month]) {
@@ -195,14 +201,16 @@ class Calendar extends React.Component {
     this.setState({
       month,
       year,
-      calendar: [
-        { id: "week-1", data: firstWeek },
-        { id: "week-2", data: secondWeek },
-        { id: "week-3", data: thirdWeek },
-        { id: "week-4", data: forthWeek },
-        { id: "week-5", data: fifthWeek },
-        { id: "week-6", data: sixthWeek },
-      ],
+      calendar: this.createCalendarData(
+        year,
+        this.props.pastWorkoutData,
+        firstWeek,
+        secondWeek,
+        thirdWeek,
+        forthWeek,
+        fifthWeek,
+        sixthWeek
+      ),
     });
   };
 
@@ -262,6 +270,7 @@ class Calendar extends React.Component {
             {week.data.map((day) =>
               day.class !== undefined ? (
                 <div
+                  onClick={() => this.props.showTimeline(this.state.year, day)}
                   key={`${day.month}${day.value}`}
                   className={`calendar__day ${day.class}`}
                 >
@@ -282,4 +291,8 @@ const mapStateToProps = (state) => ({
   pastWorkoutData: state.workout.pastWorkoutData,
 });
 
-export default connect(mapStateToProps)(Calendar);
+const mapDispatchToProps = (dispatch) => ({
+  showTimeline: (year, day) => dispatch(showTimeline(year, day)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

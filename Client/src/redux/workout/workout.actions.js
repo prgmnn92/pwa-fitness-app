@@ -46,3 +46,8 @@ export const saveWorkouts = (workouts) => ({
   type: WorkoutActionTypes.WORKOUT_SAVE,
   payload: workouts,
 });
+
+export const showTimeline = (year, day) => ({
+  type: WorkoutActionTypes.TIMELINE_SHOW,
+  payload: { year, ...day },
+});

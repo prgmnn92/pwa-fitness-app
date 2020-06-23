@@ -102,6 +102,8 @@ $button-border-size: 8px;
     text-align: center;
     width: 14.28%;
   }
+
+
   
   &__day {
       display: flex;
@@ -119,6 +121,20 @@ $button-border-size: 8px;
   
     &--soft {
       color: rgba($color: #ccc, $alpha: .1);
+    }
+  }
+
+  &__day.active {
+    position: relative;
+    &::before {
+      position: absolute;
+      content: '';
+      left: 1.1rem;
+      top: 1rem;
+      width: 3px;
+      height: 60%;
+      background-color: rgb(20, 220, 103);
+      border-radius: 3px;
     }
   }
 }
