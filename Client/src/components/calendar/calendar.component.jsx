@@ -79,7 +79,15 @@ class Calendar extends React.Component {
       newData.push(workoutData[key]);
     });
 
-    let splittedDates = newData.map((workout) => workout.date.split("/"));
+    let splittedDates =
+      newData.length > 0
+        ? newData.map((workout) => {
+            if (workout.date !== undefined) {
+              return workout.date.split("/");
+            }
+            return null;
+          })
+        : null;
 
     splittedDates.forEach((date) => {
       obj[date[0] + date[1] + date[2]] = true;

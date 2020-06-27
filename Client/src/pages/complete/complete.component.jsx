@@ -5,10 +5,11 @@ import { connect } from "react-redux";
 import { sumUpSets, sumUpWeight, getTimeString } from "../../utility";
 import { postWorkout } from "../../api/workout-api";
 import { resetWorkout } from "../../redux/workout/workout.actions";
+import { showNavbar } from "../../redux/ui/ui.actions";
 
 import "./complete.styles.scss";
 
-const Complete = ({ workoutData, time, resetWorkout }) => {
+const Complete = ({ workoutData, time, resetWorkout, showNavbar }) => {
   const history = useHistory();
 
   const completeWorkout = () => {
@@ -18,7 +19,7 @@ const Complete = ({ workoutData, time, resetWorkout }) => {
       .catch((err) => console.log(err));
 
     // return to homepage
-
+    showNavbar();
     history.push("/");
   };
 
@@ -83,6 +84,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   resetWorkout: () => dispatch(resetWorkout()),
+  showNavbar: () => dispatch(showNavbar()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Complete);

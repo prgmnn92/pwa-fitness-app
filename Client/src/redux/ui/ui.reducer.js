@@ -42,6 +42,7 @@ const uiReducer = (state = INITIAL_STATE, action) => {
         ...state,
         time: Date.now() - state.start,
       };
+
     default:
       return state;
   }

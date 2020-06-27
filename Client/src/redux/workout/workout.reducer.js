@@ -3,23 +3,12 @@ import WorkoutActionTypes from "./workout.types";
 const INITIAL_STATE = {
   workoutData: {},
   pastWorkoutData: {},
-  timeline: {},
+  timeline: [],
+  date: "",
 };
 
 const workoutReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case WorkoutActionTypes.TIMELINE_SHOW:
-      //action.payload . year . month(+1), value, class
-      // mit der payload daten aus dem pastworkout object suchen und in die timeline einfuegen... body head
-
-      let obj = {
-        body: "exercises",
-        head: "title",
-      };
-      return {
-        ...state,
-        timeline: { ...obj },
-      };
     case WorkoutActionTypes.WORKOUT_RESET:
       return {
         ...state,
@@ -122,6 +111,36 @@ const workoutReducer = (state = INITIAL_STATE, action) => {
           ...state.workoutData,
           ...tempWorkoutData,
         },
+      };
+
+    case WorkoutActionTypes.TIMELINE_SHOW:
+      //action.payload . year . month(+1), value, class
+      // mit der payload daten aus dem pastworkout object suchen und in die timeline einfuegen... body head
+      console.log(action.payload);
+      console.log(state.pastWorkoutData);
+
+      let workouts = [];
+
+      Object.keys(state.pastWorkoutData).forEach((key) => {
+        let date = state.pastWorkoutData[key].date.split("/"); //0: TAG 1:MONAT 2:JAHR
+
+        if (
+          Number(date[0]) === action.payload.value &&
+          Number(date[1]) === action.payload.month + 1 &&
+          Number(date[2]) === action.payload.year
+        ) {
+          workouts.push(state.pastWorkoutData[key]);
+        }
+      });
+
+      return {
+        ...state,
+        timeline: workouts,
+        date:
+          "" +
+          action.payload.year +
+          ("00" + (action.payload.month + 1)).slice(-2) +
+          ("00" + action.payload.value).slice(-2),
       };
     default:
       return state;
