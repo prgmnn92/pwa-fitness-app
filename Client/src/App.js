@@ -26,6 +26,22 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        <svg
+          width="248"
+          height="219"
+          viewBox="0 0 248 219"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="triangle"
+        >
+          <path
+            opacity="0.3"
+            d="M113.437 216.791C114.606 218.711 117.394 218.711 118.563 216.791L247.458 5.05999C248.675 3.06081 247.236 0.5 244.895 0.5H-12.8954C-15.2359 0.5 -16.675 3.0608 -15.4579 5.05998L113.437 216.791Z"
+            fill="#449DD1"
+            fill-opacity="0.6"
+          />
+        </svg>
+
         <Layout>
           <Switch>
             <Route exact path="/">

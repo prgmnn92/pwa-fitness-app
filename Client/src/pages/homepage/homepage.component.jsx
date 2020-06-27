@@ -14,6 +14,9 @@ import "./homepage.styles.scss";
 const Homepage = ({ resetWorkout }) => (
   <div className="homepage">
     <WeekView />
+    <div className="progress-bar"></div>
+    <div className="last-workout"></div>
+    <div className="start-workout"></div>
 
     <BigButton url="/plan-creator" Icon={Plus}>
       Plan erstellen

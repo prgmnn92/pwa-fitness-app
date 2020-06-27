@@ -3,7 +3,8 @@
   width: 80%;
   margin: 0 auto;
   border: none;
-  background-color: #313a4d;
+  background: #aee1ff;
+  border-radius: 0px 20px 20px 0px;
   font-family: "Oswald", sans-serif;
   letter-spacing: 0.18rem;
   font-size: 1.6rem;
@@ -21,14 +22,15 @@
     justify-content: space-around;
     align-items: center;
     text-decoration: none;
-    color: #fff;
+    color: var(--color-dark-blue);
   }
 
   &__icon {
-    fill: #fff;
+    fill: var(--color-dark-blue);
     width: 3.5rem;
     height: 3.5rem;
   }
 
-  &__text {}
+  &__text {
+  }
 }
