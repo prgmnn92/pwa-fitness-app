@@ -1,16 +1,35 @@
 .homepage {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: repeat(3, min-content);
-  grid-gap: 4rem;
+  display: flex;
+  flex-direction: column;
 
   animation: 0.2s smoothPageReveal forwards;
+  margin-top: 14vh;
+  height: 67vh;
+  background-color: #fff;
+  border-radius: 3rem;
+  padding: 0 2rem;
+
+  &__heading {
+    padding-top: 3rem;
+    font-size: 2.4rem;
+
+  }
+
+}
+
+
+.hr-line {
+  display: block;
+  height: 1px;
+  background-color: #DEDEDE;
+  margin-bottom: 2rem;
 }
 
 @keyframes smoothPageReveal {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }

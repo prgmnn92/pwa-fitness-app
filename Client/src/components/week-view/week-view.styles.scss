@@ -1,11 +1,14 @@
 .week-view {
   display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1rem 2rem;
 
-  background: var(--color-light-blue);
+  //background: var(--color-light-blue);
   border-radius: 0px 0px 45px 45px;
 
   width: 100%;
-  padding: 1.5rem 2.5rem;
   color: #fff;
   margin: auto 0;
   font-size: 1.6rem;
@@ -16,8 +19,7 @@
     justify-content: space-between;
   }
 
-  &__item {
-  }
+  &__item {}
 
   &__text {
     font-weight: 500;
@@ -30,22 +32,20 @@
     align-items: center;
     height: 4rem;
     width: 4rem;
-    font-weight: 700;
+    font-weight: 400;
     box-shadow: 0 0.5rem 1rem rgba($color: #000000, $alpha: 0.1);
-    color: var(--color-dark-blue);
+    color: var(--color-dark);
 
     background: #ffffff;
-    box-shadow: 0px 4px 4px rgba(255, 255, 255, 0.25),
-      inset 0px 2px 10px rgba(0, 0, 0, 0.25);
+
 
     border-radius: 50%;
     margin-top: 1rem;
   }
 
   &__item--active &__number {
-    background: var(--color-dark-blue);
-    box-shadow: 0px 4px 4px rgba(255, 255, 255, 0.25),
-      inset 0px 2px 10px rgba(0, 0, 0, 0.25);
+    background: var(--color-yellow);
+
     color: #ffffff;
   }
 }

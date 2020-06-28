@@ -1,8 +1,10 @@
 // Heebo 400, 500, 700
 // Oswald 400
 
-$font-primary: "Heebo", sans-serif;
-$font-display: "Oswald", sans-serif;
+$font-primary: "Heebo",
+sans-serif;
+$font-display: "Oswald",
+sans-serif;
 
 * {
   margin: 0;
@@ -15,8 +17,11 @@ $font-display: "Oswald", sans-serif;
 :root {
   --color-dark-blue: #3840a2;
   --color-light-blue: #4f5cff;
-  --color-dark: #232020;
-  --color-yellow: #ddad31;
+  --color-dark: #414144;
+  --color-very-dark: #232020;
+  --color-yellow: #f8c136;
+  --color-light-grey: #DEDEDE;
+  --color-green: rgb(52, 156, 66);
 }
 
 html {
@@ -24,7 +29,7 @@ html {
   font-size: 62.5%;
   font-family: $font-primary;
   // background-color: #2c3344;
-  background: #fff;
+  background: var(--color-dark);
   // background-image: linear-gradient(
   //   to bottom,
   //   rgba(#2c3344, 1) 75%,
@@ -32,14 +37,4 @@ html {
   //   rgba(#394359, 1)
   // );
   height: 100%;
-}
-
-.App {
-  position: relative;
-}
-
-.triangle {
-  position: absolute;
-  left: -39px;
-  top: 25vh;
 }

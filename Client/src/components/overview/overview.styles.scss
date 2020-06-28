@@ -1,0 +1,60 @@
+.overview {
+
+    &__text {
+        margin-bottom: .7rem;
+    }
+
+    &__container {}
+
+    &__list {
+        list-style: none;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    &__item {
+        position: relative;
+        width: 100%;
+        padding: 0 2rem;
+        text-align: center;
+
+        span {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        p {
+            font-weight: 500;
+            font-size: 1.2rem;
+
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 30%;
+            left: 0rem;
+            width: 1px;
+            height: 4.5rem;
+            background-color: var(--color-light-grey);
+        }
+
+        &:last-child {
+            &::after {
+                content: '';
+                position: absolute;
+                top: 30%;
+                right: 0rem;
+                width: 1px;
+                height: 4.5rem;
+                background-color: var(--color-light-grey);
+            }
+        }
+    }
+
+    &__icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        margin: 1.5rem auto;
+    }
+}

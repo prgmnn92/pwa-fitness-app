@@ -44,10 +44,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-items: flex-end;
   }
 
-  &__history {
+  &__icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    fill: #fff;
+
+    margin: 2rem 0;
   }
+
+  &__history {}
 
   &__list-title {
     padding: 1.5rem 0;
