@@ -19,7 +19,7 @@ const Complete = ({ workoutData, time, resetWorkout, showNavbar }) => {
 
 	const completeWorkout = () => {
 		//postworkout
-		postWorkout(workoutData, title, time)
+		postWorgitkout(workoutData, title, time)
 			.then(resetWorkout) //delete workout data
 			.catch((err) => console.log(err));
 
