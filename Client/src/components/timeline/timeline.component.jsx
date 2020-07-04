@@ -7,7 +7,8 @@ import 'moment/locale/de';
 import './timeline.styles.scss';
 
 const Timeline = ({ timeline, date }) => {
-	let mom = moment(date);
+	let newDate = date.split('/');
+	let mom = moment(newDate[2] + newDate[1] + newDate[0]);
 	mom.locale('de');
 
 	if (!mom.isValid()) {

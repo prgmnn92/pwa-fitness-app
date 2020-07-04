@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -15,10 +15,11 @@ import './complete.styles.scss';
 
 const Complete = ({ workoutData, time, resetWorkout, showNavbar }) => {
 	const history = useHistory();
+	const [ title, setTitle ] = useState('Improvisiertes Training');
 
 	const completeWorkout = () => {
 		//postworkout
-		postWorkout(workoutData, 'titel', time)
+		postWorkout(workoutData, title, time)
 			.then(resetWorkout) //delete workout data
 			.catch((err) => console.log(err));
 
@@ -39,7 +40,12 @@ const Complete = ({ workoutData, time, resetWorkout, showNavbar }) => {
 				</div>
 			</div>
 
-			<h2 className="h2-heading">Improvisiertes Training</h2>
+			<input
+				onChange={(e) => setTitle(e.target.value)}
+				value={title}
+				placeholder={title}
+				className="h2-heading"
+			/>
 			<div className="complete__notes">Notizen</div>
 			<div className="complete__container">
 				<div className="complete__small-container">
