@@ -8,7 +8,6 @@ import BigButton from '../../components/big-button/big-button.component';
 import ProgressBar from '../../components/progress-bar/progress-bar.component';
 import Overview from '../../components/overview/overview.component';
 
-import { ReactComponent as Plus } from '../../assets/img/SVG/plus.svg';
 import { ReactComponent as Play } from '../../assets/img/SVG/play3.svg';
 
 import './homepage.styles.scss';
@@ -22,10 +21,6 @@ const Homepage = ({ resetWorkout }) => (
 		<Overview />
 		<h1 className="homepage__heading">Starte dein Training</h1>
 		<div className="hr-line" />
-
-		<BigButton url="/plan-creator" Icon={Plus}>
-			Plan erstellen
-		</BigButton>
 
 		<BigButton url="/quick-start" Icon={Play} clickHandler={resetWorkout}>
 			Schnellstart

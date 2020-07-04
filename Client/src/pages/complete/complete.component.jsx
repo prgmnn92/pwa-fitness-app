@@ -50,7 +50,6 @@ const Complete = ({ workoutData, time, resetWorkout, showNavbar }) => {
 
       <textarea
         className="complete__notes"
-        //contentEditable="true"
         value={notes}
         onChange={(e) => changeNotes(e.target.value)}
       ></textarea>
