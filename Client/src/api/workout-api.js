@@ -1,11 +1,12 @@
 import { getTimeString } from "../utility";
 
-export const postWorkout = (workoutData, title, time) => {
+export const postWorkout = (workoutData, title, time, notes) => {
   return new Promise((resolve, reject) => {
     let data = {
       title: title,
       duration: getTimeString(time),
       exercises: workoutData,
+      notes: notes,
     };
 
     let err = false;
