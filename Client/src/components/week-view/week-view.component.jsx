@@ -1,12 +1,11 @@
 import React from "react";
 import moment from "moment";
+
+import { getActualWeekDay } from "../../utility";
+
 import "./week-view.styles.scss";
 
 const WeekView = () => {
-  const getActualWeekDay = (dayNumber) => {
-    return moment().startOf("isoWeek").add(dayNumber, "day").format("DD");
-  };
-
   const handleItemClass = (dayNumber) => {
     return getActualWeekDay(dayNumber) === moment().format("DD")
       ? "week-view__item week-view__item--active"

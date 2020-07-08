@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const convertObjectForExerciseBox = (object) => {
   let newArray = [];
 
@@ -21,6 +23,64 @@ export const convertObjectForExerciseBox = (object) => {
   });
 
   return newArray;
+};
+
+export const getActualWeekDay = (dayNumber) => {
+  return moment().startOf("isoWeek").add(dayNumber, "day").format("DD");
+};
+
+export const getActualDayWithMonth = (dayNumber) => {
+  return moment().startOf("isoWeek").add(dayNumber, "day").format("DD. MMMM");
+};
+
+export const getActualWeekString = () => {
+  return getActualDayWithMonth(0) + "-" + getActualDayWithMonth(6);
+};
+
+export const getWeekString = (operator) => {
+  if (operator === undefined) return;
+  let weekString;
+  if (operator <= 0) {
+    weekString =
+      moment()
+        .startOf("isoWeek")
+        .add(0, "day")
+        .subtract(operator, "week")
+        .format("DD. MMMM") +
+      " - " +
+      moment()
+        .startOf("isoWeek")
+        .add(6, "day")
+        .subtract(operator, "week")
+        .format("DD. MMMM");
+  } else {
+    weekString =
+      moment()
+        .startOf("isoWeek")
+        .add(0, "day")
+        .add(operator, "week")
+        .format("DD. MMMM") +
+      " - " +
+      moment()
+        .startOf("isoWeek")
+        .add(6, "day")
+        .add(operator, "week")
+        .format("DD. MMMM");
+  }
+
+  return weekString;
+};
+
+export const getMonthString = (operator) => {
+  if (operator === undefined) return;
+  let weekString;
+  if (operator <= 0) {
+    weekString = moment().subtract(operator, "month").format("MMMM");
+  } else {
+    weekString = moment().add(operator, "month").format("MMMM");
+  }
+
+  return weekString;
 };
 
 // const dummyData = {
