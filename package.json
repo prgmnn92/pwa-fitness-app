@@ -15,7 +15,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "engines": {
-    "node": "12.x"
+    "node": "12.13.1",
+    "npm": "6.14.5"
   },
   "devDependencies": {},
   "author": "",
