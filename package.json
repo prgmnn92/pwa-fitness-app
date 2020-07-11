@@ -8,8 +8,8 @@
     "mongoose": "^5.9.19"
   },
   "scripts": {
-    "start": "node server.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "start": "node server.js"
+
   },
   "name": "server",
   "version": "1.0.0",
