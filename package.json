@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.26.0",
+    "mongoose": "^5.9.19"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  },
+  "name": "server",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC",
+  "description": "A fitness app as progressive web app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prgmnn92/pwa-fitness-app.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/prgmnn92/pwa-fitness-app/issues"
+  },
+  "homepage": "https://github.com/prgmnn92/pwa-fitness-app#readme"
+}
