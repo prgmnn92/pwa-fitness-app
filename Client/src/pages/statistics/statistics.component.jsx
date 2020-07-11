@@ -103,6 +103,7 @@ export class Statistics extends Component {
 	setMode = (mode) => {
 		this.setState({
 			...this.state,
+			operator: 0,
 			displayMode: this.modes[mode]
 		});
 	};
