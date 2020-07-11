@@ -1,9 +1,9 @@
 // jshint esversion:6
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-const moment = require("moment");
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const moment = require('moment');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -12,107 +12,101 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-let uri = "mongodb://localhost:27017/workoutDB";
+let uri = 'mongodb://localhost:27017/workoutDB';
 
-mongoose.connect(uri, {
-  useFindAndModify: false,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+mongoose.connect(process.env.MONGODB_URI || uri, {
+	useFindAndModify: false,
+	useNewUrlParser: true,
+	useUnifiedTopology: true
 });
 
 const db = mongoose.connection;
 
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 let Schema = mongoose.Schema;
 
 //Ein Trainingstag
 let workoutSchema = new Schema({
-  title: String,
-  date: String,
-  duration: String,
-  exercises: [
-    {
-      name: String,
-      sets: [
-        {
-          reps: Number,
-          weight: Number,
-        },
-      ],
-    },
-  ],
+	title: String,
+	date: String,
+	duration: String,
+	exercises: [
+		{
+			name: String,
+			sets: [
+				{
+					reps: Number,
+					weight: Number
+				}
+			]
+		}
+	]
 });
 
 //Eine Uebung
 let exerciseSchema = new Schema({
-  name: String,
-  allSets: [
-    {
-      date: String,
-      sets: [
-        {
-          reps: Number,
-          weight: Number,
-        },
-      ],
-    },
-  ],
+	name: String,
+	allSets: [
+		{
+			date: String,
+			sets: [
+				{
+					reps: Number,
+					weight: Number
+				}
+			]
+		}
+	]
 });
 
-let Workout = mongoose.model("workout", workoutSchema);
-let Exercise = mongoose.model("exercise", exerciseSchema);
+let Workout = mongoose.model('workout', workoutSchema);
+let Exercise = mongoose.model('exercise', exerciseSchema);
 
 //Workout daten empfangen
 app
-  .get("/workout", (req, res) => {
-    Workout.find((err, results) => {
-      if (!err) {
-        res.send(results);
+	.get('/workout', (req, res) => {
+		Workout.find((err, results) => {
+			if (!err) {
+				res.send(results);
 
-        console.log(results);
-      } else {
-        res.send(err);
-      }
-    });
-  })
-  .post("/workout", (req, res) => {
-    let workoutData = req.body;
-    let date = moment().format("DD/MM/YYYY");
+				console.log(results);
+			} else {
+				res.send(err);
+			}
+		});
+	})
+	.post('/workout', (req, res) => {
+		let workoutData = req.body;
+		let date = moment().format('DD/MM/YYYY');
 
-    let title = workoutData.title
-      ? workoutData.title
-      : "Improvisiertes Training";
+		let title = workoutData.title ? workoutData.title : 'Improvisiertes Training';
 
-    let exercises = Object.keys(workoutData.exercises).map((key) => {
-      let sets = workoutData.exercises[key].map(
-        ({ Wiederholungen, Gewicht }) => ({
-          reps: Wiederholungen,
-          weight: Gewicht,
-        })
-      );
+		let exercises = Object.keys(workoutData.exercises).map((key) => {
+			let sets = workoutData.exercises[key].map(({ Wiederholungen, Gewicht }) => ({
+				reps: Wiederholungen,
+				weight: Gewicht
+			}));
 
-      return {
-        name: key,
-        sets: [...sets],
-      };
-    });
+			return {
+				name: key,
+				sets: [ ...sets ]
+			};
+		});
 
-    const workout = new Workout({
-      title: workoutData.title,
-      date: date,
-      duration: workoutData.duration,
-      exercises: [...exercises],
-    });
+		const workout = new Workout({
+			title: workoutData.title,
+			date: date,
+			duration: workoutData.duration,
+			exercises: [ ...exercises ]
+		});
 
-    workout.save((err) =>
-      err ? res.send(err) : res.send("Succesfully added workout")
-    );
+		workout.save((err) => (err ? res.send(err) : res.send('Succesfully added workout')));
 
-    console.log("Added a workout");
-  });
+		console.log('Added a workout');
+	});
 
 app.listen(port, (error) => {
-  if (error) throw error;
-  console.log("Server running on port " + port);
+	if (error) throw error;
+	console.log('Server running on port ' + port);
 });
