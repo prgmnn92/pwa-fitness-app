@@ -11,7 +11,7 @@ import {
   Bar,
 } from "recharts";
 
-import { getWeekString, getMonthString } from "../../utility";
+import { getWeekString, getMonthString, getYearString } from "../../utility";
 
 import "./statistics.styles.scss";
 
@@ -97,23 +97,24 @@ export class Statistics extends Component {
       case this.modes.MONTH:
         return getMonthString(this.state.weekOperator);
       case this.modes.YEAR:
-        return "year string";
+        return getYearString(this.state.weekOperator);
       case this.modes.ALL:
-        return "all string";
+        return "Gesamt";
       default:
         return "error";
     }
   };
 
-  weekStats = () => {
+  weekStats = (date) => {
+    // date => 'TAG/MONAT/JAHR'
     //daten werden auf aktuelle woche reduziert
     // welche daten sind die aktuelle woche // welche bedingung ??
   };
-  monthStats = () => {
+  monthStats = (date) => {
     //daten werden auf aktuellen monat reduziert
     //alle daten mit monat und aktuellem jahr
   };
-  yearStats = () => {
+  yearStats = (date) => {
     //daten werden auf aktuelles jahr reduziert
     // alle daten mit  jahr
   };

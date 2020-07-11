@@ -83,6 +83,18 @@ export const getMonthString = (operator) => {
   return weekString;
 };
 
+export const getYearString = (operator) => {
+  if (operator === undefined) return;
+  let weekString;
+  if (operator <= 0) {
+    weekString = moment().subtract(operator, "year").format("YYYY");
+  } else {
+    weekString = moment().add(operator, "year").format("YYYY");
+  }
+
+  return weekString;
+};
+
 // const dummyData = {
 //   Bankdruecken: [
 //     {
